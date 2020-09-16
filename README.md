@@ -1,6 +1,6 @@
-＃MyEditor
+#MyEditor
 This is an easy editor made by tkinter.
-＃＃Features
+##Features
 -open&save
 -open multiple files
 -filetree
