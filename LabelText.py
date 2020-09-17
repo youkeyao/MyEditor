@@ -10,7 +10,7 @@ class LabelText(tk.Frame):
         frame.pack(fill = tk.BOTH, expand = True)
         frame.pack_propagate(False)
         #Label
-        self.canvas = tk.Canvas(frame, bd = 0, width = 50, height = 0, bg = 'white', highlightthickness = 0)
+        self.canvas = tk.Canvas(frame, bd = 2, width = 50, height = 0, bg = 'white', highlightthickness = 0)
         self.canvas.pack(side = tk.LEFT, fill = tk.Y)
         self.labelframe = tk.Frame(self.canvas)
         self.canvas.create_window(0, 0, anchor = tk.NW, window = self.labelframe)
