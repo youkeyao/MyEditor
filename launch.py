@@ -148,13 +148,17 @@ class editorgui:
     #关闭文件
     def __closefile(self):
         if self.change[self.tab.current]:
-            if tm.askokcancel('提示', '要保存吗？'):
+            choice = tm.askyesnocancel('提示', '要保存吗？')
+            if choice == True:
                 self.__savefile()
+            elif choice == None:
+                return False
         del self.content[self.tab.current]
         del self.path[self.tab.current]
         del self.sig[self.tab.current]
         del self.change[self.tab.current]
         del self.mark[self.tab.current]
+        return True
 
     #更换显示文件夹
     def __openfolder(self):
@@ -224,9 +228,13 @@ class editorgui:
 
     #退出
     def __editorquit(self):
+        flag = True
         while len(self.tab.tabs) != 0:
-            self.tab.tabremove(self.tab.tabs[0])
-        self.root.quit()
+            if not self.tab.tabremove(self.tab.tabs[0]):
+                flag = False
+                break
+        if flag:
+            self.root.quit()
 
     #多线程
     def threadfunc(self, func, *args):
