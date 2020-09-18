@@ -2,7 +2,7 @@ import tkinter as tk
 
 class LabelText(tk.Frame):
     rowlabel = [] #存放所有Label
-    func = None
+    func = None #文本改变回调函数
     def __init__(self, *args):
         super().__init__(*args)
         #上框架
@@ -12,7 +12,7 @@ class LabelText(tk.Frame):
         #Label
         self.canvas = tk.Canvas(frame, bd = 2, width = 50, height = 0, bg = 'white', highlightthickness = 0)
         self.canvas.pack(side = tk.LEFT, fill = tk.Y)
-        self.labelframe = tk.Frame(self.canvas)
+        self.labelframe = tk.Frame(self.canvas, height = 0)
         self.canvas.create_window(0, 0, anchor = tk.NW, window = self.labelframe)
         self.__updatelabel(1)
         #文本框
@@ -44,25 +44,28 @@ class LabelText(tk.Frame):
         self.__updatelabel(lines)
         if self.func:
             self.func()
+        #c = self.textwin.get('insert-1c', 'insert')
+        #print(c)
 
     #更新Label
     def __updatelabel(self, lines):
         n = len(self.rowlabel)
         if lines == n:
             return
-        elif lines > n:
+        else:
             size = (50, lines * 18)
             self.canvas.config(scrollregion="0 0 %s %s" % size)
             if self.labelframe.winfo_reqheight() != lines * 18:
                 self.canvas.config(height = lines * 18)
-            for i in range(n + 1, lines + 1):
-                self.rowlabel.append(tk.Label(self.labelframe, text = i, width = 4,
-                    bg = 'white', font = ('Consolas', 11), bd = 0, pady = 0, padx = 6, anchor = 'e'))
-                self.rowlabel[-1].pack()
-        elif lines < n:
-            for i in range(n - 1, lines - 1, -1):
-                self.rowlabel[i].pack_forget()
-                del self.rowlabel[i]
+            if lines > n:
+                for i in range(n + 1, lines + 1):
+                    self.rowlabel.append(tk.Label(self.labelframe, text = i, width = 4,
+                        bg = 'white', font = ('Consolas', 11), bd = 0, pady = 0, padx = 6, anchor = 'e'))
+                    self.rowlabel[-1].pack()
+            elif lines < n:
+                for i in range(n - 1, lines - 1, -1):
+                    self.rowlabel[i].pack_forget()
+                    del self.rowlabel[i]
 
     #获得文本
     def gettext(self):
@@ -126,5 +129,4 @@ if __name__ == '__main__':
     root.geometry('800x700')
     l = LabelText(root)
     l.pack(fill = tk.BOTH, expand = True)
-    l.bindcheck(lambda:print('hhh'))
     root.mainloop()
