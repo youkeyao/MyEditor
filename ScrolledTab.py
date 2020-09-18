@@ -3,10 +3,10 @@ import tkinter as tk
 class ScrolledTab(tk.Frame):
     tabs = [] #存放标签
     current = -1 #当前页
-    func_click = None
-    func_remove = None
-    func_end = None
-    func_add = None
+    func_click = None #点击回调函数
+    func_remove = None #移除回调函数
+    func_end = None #无标签回调函数
+    func_add = None #增加回调函数
     def __init__(self, *args):
         super().__init__(*args)
         #框架
@@ -59,7 +59,9 @@ class ScrolledTab(tk.Frame):
         old = self.current
         self.tabclick(self.tabs[n])
         if self.func_remove:
-            self.func_remove()
+            choice = self.func_remove()
+            if not choice:
+                return False
         self.tabs[n].pack_forget()
         del self.tabs[n]
         self.current = -1
@@ -70,6 +72,7 @@ class ScrolledTab(tk.Frame):
             old -= 1
         if old != -1:
             self.tabclick(self.tabs[old])
+            return True
         elif self.func_end:
             self.func_end()
 
