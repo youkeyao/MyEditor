@@ -1,7 +1,6 @@
 import tkinter as tk
 import tkinter.filedialog as tf
 import tkinter.messagebox as tm
-import tkinter.ttk as ttk
 import LabelText
 import ScrolledTab
 import FileTree
