@@ -4,3 +4,4 @@ This is an easy editor made by tkinter.
 - open&save
 - open multiple files
 - filetree
+$\delta$
