@@ -10,7 +10,7 @@ class ScrolledTab(tk.Frame):
     def __init__(self, *args):
         super().__init__(*args)
         #框架
-        self.tabcanvas = tk.Canvas(self, height = 20, bd = 0, highlightthickness = 0)
+        self.tabcanvas = tk.Canvas(self, height = 32, bd = 0, highlightthickness = 0)
         self.tabcanvas.pack(fill = tk.X)
         self.tabframe = tk.Frame(self.tabcanvas, bg = 'white')
         self.tabframe.place(relx = 0, rely = 0, anchor = tk.NW)
@@ -32,7 +32,7 @@ class ScrolledTab(tk.Frame):
     def tabadd(self, text = ''):
         if self.func_add:
             self.func_add()
-        self.tabs.append(tk.Label(self.tabframe, text = text, bg = 'dark grey', padx = 15))
+        self.tabs.append(tk.Label(self.tabframe, text = text, bg = 'dark grey', padx = 15, pady = 6, font = ("Verdana", 10)))
         self.tabs[-1].pack(side = tk.LEFT, padx = 1)
         self.tabclick(self.tabs[-1])
         #绑定
