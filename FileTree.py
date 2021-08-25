@@ -8,7 +8,7 @@ class FileTree(tk.Frame):
         super().__init__(*args)
         self.ftree = ttk.Treeview(self, show = 'tree')
         self.ftree.pack(fill = tk.BOTH, expand = True)
-        self.ftree.bind('<Double-Button-1>', lambda event:self.treeclick())
+        self.ftree.bind('<Double-Button-1>', lambda event:self.treeClick())
         #样式
         style_ftree = ttk.Style()
         style_ftree.theme_use("clam")
@@ -23,7 +23,7 @@ class FileTree(tk.Frame):
         style_ftree.configure("Treeview", font = ("Verdana", 10))
 
     #显示文件夹内文件
-    def __findfile(self, parent, rootpath):
+    def __findFile(self, parent, rootpath):
         allpath = os.listdir(rootpath)
         file_path = []
         dir_path = []
@@ -35,17 +35,17 @@ class FileTree(tk.Frame):
                 dir_path.append(f)
         for f in dir_path:
             p = self.ftree.insert(parent, len(self.ftree.get_children(parent)), text = f.split('/')[-1])
-            self.__findfile(p, f)
+            self.__findFile(p, f)
         for f in file_path:
             p = self.ftree.insert(parent, len(self.ftree.get_children(parent)), text = f.split('/')[-1], values = f)
 
     def setTree(self, path):
         self.ftree.delete(*self.ftree.get_children())
         r = self.ftree.insert('', 0, text = path.split('/')[-1])
-        self.__findfile(r, path)
+        self.__findFile(r, path)
 
     #选择文件
-    def treeclick(self):
+    def treeClick(self):
         item = self.ftree.selection()[0]
         path = self.ftree.item(item)['values']
         if path != '':
@@ -53,7 +53,7 @@ class FileTree(tk.Frame):
                 self.func_open(path[0])
 
     #绑定
-    def bindtree(self, func_open):
+    def bindTree(self, func_open):
         self.func_open = func_open
 
 if __name__ == '__main__':

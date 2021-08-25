@@ -15,10 +15,10 @@ class ScrolledTab(tk.Frame):
         self.tabframe = tk.Frame(self.tabcanvas, bg = 'white')
         self.tabframe.place(relx = 0, rely = 0, anchor = tk.NW)
         #绑定
-        self.tabcanvas.bind('<Double-Button-1>', lambda event:self.tabadd())
+        self.tabcanvas.bind('<Double-Button-1>', lambda event:self.tabAdd())
 
     #滚动
-    def __tabscroll(self, event):
+    def __tabScroll(self, event):
         if self.tabcanvas.winfo_width() > self.tabframe.winfo_reqwidth():
             return
         movex = self.tabframe.winfo_x() + event.delta/6
@@ -29,21 +29,21 @@ class ScrolledTab(tk.Frame):
         self.tabframe.place(x = movex)
 
     #增加标签
-    def tabadd(self, text = ''):
+    def tabAdd(self, text = ''):
         if self.func_add:
             self.func_add()
         self.tabs.append(tk.Label(self.tabframe, text = text, bg = 'dark grey', padx = 15, pady = 6, font = ("Verdana", 10)))
         self.tabs[-1].pack(side = tk.LEFT, padx = 1)
-        self.tabclick(self.tabs[-1])
+        self.tabClick(self.tabs[-1])
         #绑定
-        self.tabs[-1].bind('<Button-1>', lambda event:self.tabclick(event.widget))
-        self.tabs[-1].bind('<Button-3>', lambda event:self.tabremove(event.widget))
-        self.tabs[-1].bind('<MouseWheel>', self.__tabscroll)
+        self.tabs[-1].bind('<Button-1>', lambda event:self.tabClick(event.widget))
+        self.tabs[-1].bind('<Button-3>', lambda event:self.tabRemove(event.widget))
+        self.tabs[-1].bind('<MouseWheel>', self.__tabScroll)
         self.tabs[-1].bind('<Enter>', lambda event:event.widget.config(cursor = 'hand2'))
         self.tabs[-1].bind('<Leave>', lambda event:event.widget.config(cursor = 'arrow'))
 
     #点击标签
-    def tabclick(self, tab):
+    def tabClick(self, tab):
         old = self.current
         n = self.tabs.index(tab)
         if self.current != -1:
@@ -54,10 +54,10 @@ class ScrolledTab(tk.Frame):
         self.tabs[self.current].config(bg = 'white')
 
     #移除标签
-    def tabremove(self, tab):
+    def tabRemove(self, tab):
         n = self.tabs.index(tab)
         old = self.current
-        self.tabclick(self.tabs[n])
+        self.tabClick(self.tabs[n])
         if self.func_remove:
             choice = self.func_remove()
             if not choice:
@@ -71,13 +71,13 @@ class ScrolledTab(tk.Frame):
         elif n < old:
             old -= 1
         if old != -1:
-            self.tabclick(self.tabs[old])
+            self.tabClick(self.tabs[old])
             return True
         elif self.func_end:
             self.func_end()
 
     #绑定
-    def bindfunc(self, func_add, func_click, func_remove, func_end):
+    def bindFunc(self, func_add, func_click, func_remove, func_end):
         self.func_add = func_add
         self.func_click = func_click
         self.func_remove = func_remove
@@ -89,5 +89,5 @@ if __name__ == '__main__':
     l = ScrolledTab(root)
     l.pack(fill = tk.BOTH)
     for i in range(1,5):
-        l.tabadd(i)
+        l.tabAdd(i)
     root.mainloop()
